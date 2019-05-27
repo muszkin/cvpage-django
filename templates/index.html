@@ -1,0 +1,448 @@
+{% extends 'main.html' %}
+{% load i18n static %}
+{% block body %}
+    <body class="index">
+    <section id="menu" class="menu">
+        <div class="menu__wrapper nav-fixed">
+            <div class="container">
+                <div class="row">
+                    <div class="menu-collapsed">
+                        <div class="bar visible-xs"></div>
+                        <nav>
+                            <ul>
+                                <li><a href="#hello">{% trans "hello" %}</a></li>
+                                <li><a href="#resume">{% trans "resume" %}</a></li>
+{#                                <li><a href="#portfolio">{% trans "portfolio" %}</a></li>#}
+{#                                <li><a href="#testimonials">{% trans "testimonials" %}</a></li>#}
+                                <li><a href="#contacts">{% trans "contact" %}</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="front" class="front">
+        <div class="container">
+            <div class="card   row">
+                <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-1 col-md-3 col-md-offset-2">
+                    <div class="row">
+                        <img class="front__image img-responsive" src="{% static 'img/me.png' %}" alt=""/>
+                        <!-- <img class="front__image img-responsive" src="img/img_portrait2.jpg" alt=""/> -->
+                    </div>
+                </div>
+                <div class="col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-1">
+                    <div class="row">
+                        <h1><strong>{% trans "name" %}</strong></h1>
+                        <p class="text-muted">{% trans "short.description" %}</p>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <dl class="dl-horizontal">
+                            <dt>{% trans "age.label" %}</dt><dd>36</dd>
+                            <dt>{% trans "phone.label" %}</dt><dd><a href="tel:{% trans "phone.short" %}">{% trans "phone.long" %}</a></dd>
+                            <dt>{% trans "email.label" %}</dt><dd><a href="mailto:{% trans "email" %}">{% trans "email" %}</a></dd>
+                            <dt>{% trans "address.label" %}</dt><dd>{% trans "address" %}</dd>
+                        </dl>
+                    </div>
+                    <div class="row social_icons">
+                        <ul class="list-inline">
+                            <li class="no_paddings">
+                                <a href="https://www.facebook.com/metron69" target="_blank">
+                                    <i class="fa fa-facebook fa-2x" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li class="no_paddings">
+                                <a href="https://www.linkedin.com/in/piotr-mucha-28394a69/" target="_blank">
+                                    <i class="fa fa-linkedin fa-2x" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li class="no_paddings">
+                                <a href="https://www.github.com/muszkin" target="_blank">
+                                    <i class="fa fa-github fa-2x" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="hello" class="col-xs-10 col-xs-offset-1 intro_text">
+                    <h2 id="hello_header">{% trans "hello.header" %}</h2>
+                    <div class="row">
+                        <p>
+                            {% trans "hello.info" %}
+                        </p>
+                        <div class="download_cv_block">
+                            <a href="{% static "piotr-mucha.pdf" %}" class="btn btn-primary" target="_blank" download="{% static "piotr-mucha.pdf" %}">
+                                {% trans "download.cv" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="resume" class="employment_and_edu_block">
+        <div class="container">
+            <h2 id="resume_header" class="text-center">{% trans "resume.header" %}</h2>
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <p class="employment_and_edu_block__heading-text">
+                        {% trans "resume.info" %}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="education_info col-xs-8 col-xs-offset-2">
+                    <h3 class="resume-subheader resume-subheader--edu">{% trans "education.header" %}</h3>
+                    {% for school in schools %}
+                        <div class="cv-block">
+                            <h4 class="cv-block__header">{{ school.name }}</h4>
+                            <p class="dates">
+                                {{ school.startDate|date:'Y-m' }} - {{ school.endDate|date:'Y-m' }}
+                            </p>
+                            <p>{{ school.endTitle }}</p>
+                        </div>
+                    {% empty %}
+                        <div class="cv-block">
+                            <h4 class="cv-block__header">Obecnie brak wpisów z edukacją</h4>
+                            <p class="dates">
+                                1983 - {% trans "now"|date:"Y" %}
+                            </p>
+                            <p>...</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="jobs-info col-xs-8 col-xs-offset-2">
+                    <h3 class="resume-subheader resume-subheader--jobs">{% trans "work.header" %}</h3>
+                    {% for work in works %}
+                        <div class="cv-block">
+                            <h4 class="cv-block__header">{{ work.company }}</h4>
+                            <p class="dates">
+                                {{ work.startDate|date:"Y-m" }} - {{ work.endDate|date:"Y-m" }}
+                            </p>
+                            <p>{{ work.position }}</p>
+                            <ul>
+                                {% for duty in work.duties %}
+                                    <li>{{ duty.description }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% empty %}
+                        <div class="cv-block">
+                            <h4 class="cv-block__header">Bezrobotny</h4>
+                            <p class="dates">
+                                1983 - {% trans "now"|date:"Y" %}
+                            </p>
+                            <p>unemployed</p>
+                            <ul>
+                                <li>brak</li>
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="skill-set row   js-skill-set">
+                <h3 class="skill-set__header">{% trans "skill.header" %}</h3>
+                <div class="col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-1">
+                {% for skill in skills %}
+                    <div class="progress_skill">
+                        <div>
+                            <p>
+                                <span class="skill_item">{{ skill.name }}</span>
+                                <span class="skill_value">{{ skill.value }}%</span>
+                            </p>
+                        </div>
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ skill.value }}" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="progress_skill">
+                        <div>
+                            <p>
+                                <span class="skill_item">Brak umiejętności do wyświetlenia</span>
+                                <span class="skill_value">100%</span>
+                            </p>
+                        </div>
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{#    <section id="portfolio" class="portfolio_block">#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col-xs-12">#}
+{#                    <h2 id="portfolio_header" class="text-center">Portfolio_</h2>#}
+{#                    <div class="portfolio_menu row">#}
+{#                        <div class="col-xs-12">#}
+{#                            <ul class="list-inline list-unstyled">#}
+{#                                <li><a href="#" data-portfolio-target-tag="all">All</a></li>#}
+{#                                <li><a href="#" data-portfolio-target-tag="mobile apps">Mobile apps</a></li>#}
+{#                                <li><a href="#" data-portfolio-target-tag="web-sites">Web-sites</a></li>#}
+{#                                <li><a href="#" data-portfolio-target-tag="landing-pages">Landing pages</a></li>#}
+{#                            </ul>#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div class="portfolio_items">#}
+{#                        <div class="item row   js-portfolio-item" data-portfolio-tag="web-sites">#}
+{#                            <div class="item__bg"></div>#}
+{#                            <div class="portfolio_pic col-xs-12 col-sm-5">#}
+{#                                <div class="hover-mask">#}
+{#                                    <a href="#" title="" data-toggle="modal" data-target="#portfolio-modal">#}
+{#                                        <!-- <img class="img-responsive" src="img/portfolio-proj-1.jpg" alt=""/> -->#}
+{#                                        <img class="img-responsive" src="http://placehold.it/938x719" alt=""/>#}
+{#                                        <h2><i class="fa fa-search-plus" aria-hidden="true"></i></h2>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="portfolio_details col-xs-12 col-sm-6">#}
+{#                                <h3 class="portfolio_title">Mobile and desktop app for London hostel store</h3>#}
+{#                                <p class="portfolio_description">#}
+{#                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,#}
+{#                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud#}
+{#                                </p>#}
+{#                                <div class="portfolio_stack">#}
+{#                                    <p>Used stack:</p>#}
+{#                                    <ul class="list-inline">#}
+{#                                        <li>css 3</li>#}
+{#                                        <li>html 5</li>#}
+{#                                        <li>JavaScript</li>#}
+{#                                    </ul>#}
+{#                                </div>#}
+{#                                <a class="portfolio_link" href="http://www.superapp.com" target="_blank">www.superapp.com</a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="item row   js-portfolio-item" data-portfolio-tag="mobile apps">#}
+{#                            <div class="item__bg"></div>#}
+{#                            <div class="portfolio_pic col-xs-12 col-sm-5">#}
+{#                                <div class="hover-mask">#}
+{#                                    <a href="#" title="" data-toggle="modal" data-target="#portfolio-modal">#}
+{#                                        <!-- <img class="img-responsive" src="img/portfolio-proj-2.jpg" alt=""/> -->#}
+{#                                        <img class="img-responsive" src="http://placehold.it/938x719" alt=""/>#}
+{#                                        <h2><i class="fa fa-search-plus" aria-hidden="true"></i></h2>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="portfolio_details col-xs-12 col-sm-6">#}
+{#                                <h3 class="portfolio_title">Mobile and desktop app for London hostel store</h3>#}
+{#                                <p class="portfolio_description">#}
+{#                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,#}
+{#                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud#}
+{#                                </p>#}
+{#                                <div class="portfolio_stack">#}
+{#                                    <p>Used stack:</p>#}
+{#                                    <ul class="list-inline">#}
+{#                                        <li>NodeJS</li>#}
+{#                                        <li>AngularJS</li>#}
+{#                                        <li>JavaScript</li>#}
+{#                                    </ul>#}
+{#                                </div>#}
+{#                                <a class="portfolio_link" href="http://www.superapp.com" target="_blank">www.superapp.com</a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="item row   js-portfolio-item" data-portfolio-tag="landing-pages">#}
+{#                            <div class="item__bg"></div>#}
+{#                            <div class="portfolio_pic col-xs-12 col-sm-5">#}
+{#                                <div class="hover-mask">#}
+{#                                    <a href="#" title="" data-toggle="modal" data-target="#portfolio-modal">#}
+{#                                        <!-- <img class="img-responsive" src="img/portfolio-proj-1.jpg" alt=""/> -->#}
+{#                                        <img class="img-responsive" src="http://placehold.it/938x719" alt=""/>#}
+{#                                        <h2><i class="fa fa-search-plus" aria-hidden="true"></i></h2>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="portfolio_details col-xs-12 col-sm-6">#}
+{#                                <h3 class="portfolio_title">Mobile and desktop app for London hostel store</h3>#}
+{#                                <p class="portfolio_description">#}
+{#                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,#}
+{#                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud#}
+{#                                </p>#}
+{#                                <div class="portfolio_stack">#}
+{#                                    <p>Used stack:</p>#}
+{#                                    <ul class="list-inline">#}
+{#                                        <li>css 3</li>#}
+{#                                        <li>html 5</li>#}
+{#                                        <li>JavaScript</li>#}
+{#                                    </ul>#}
+{#                                </div>#}
+{#                                <a class="portfolio_link" href="http://www.superapp.com" target="_blank">www.superapp.com</a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+{##}
+{#    <section id="testimonials" class="testimonials_block">#}
+{#        <div class="container">#}
+{#            <h2 id="testimonials_header" class="text-center">{% trans "testimonials.header" %}</h2>#}
+{#            <div class="card">#}
+{#                <div id="reviews" class="reviews row">#}
+{#                    {% for testimonial in testimonials %}#}
+{#                        <div class="review col-xs-10 col-xs-offset-1">#}
+{#                            <h3 class="reviewer">{{ testimonial.name }}</h3>#}
+{#                            <p class="review_project">Project: <a href="{{ testimonial.projectUrl }}" class="accent_font" target="_blank">{{ testimonial.project }}</a></p>#}
+{#                            <hr/>#}
+{#                            <div class="review_text">#}
+{#                                <p>{{ testimonial.testimonial }}</p>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% empty %}#}
+{#                        <div class="review col-xs-10 col-xs-offset-1">#}
+{#                            <h3 class="reviewer">John Doe</h3>#}
+{#                            <p class="review_project">Project: <a href="#" class="accent_font">CV Page</a></p>#}
+{#                            <hr/>#}
+{#                            <div class="review_text">#}
+{#                                <p>#}
+{#                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.#}
+{#                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris#}
+{#                                </p>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#                <div class="review_buttons">#}
+{#                    <div class="col-xs-10 col-xs-offset-1 text-right">#}
+{#                        <a class="review-btn review-btn--left   js-review-btn-left">#}
+{#                            <span class="review-btn__arrow review-btn__arrow--top"></span>#}
+{#                            <span class="review-btn__arrow review-btn__arrow--bottom"></span>#}
+{#                        </a>#}
+{#                        <a class="review-btn review-btn--right   js-review-btn-right">#}
+{#                            <span class="review-btn__arrow review-btn__arrow--top"></span>#}
+{#                            <span class="review-btn__arrow review-btn__arrow--bottom"></span>#}
+{#                        </a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+
+    <section id="contacts" class="contacts_block">
+        <div class="container">
+            <h2 id="contacts_header" class="text-center header_color_special">Contact me_</h2>
+            <div class="card">
+                <div class="reviews row">
+                    <div class="contacts_links col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-1 col-md-4">
+                        <div class="row">
+                            <div class="col-xs-7 col-sm-12">
+                                <dl class="dl-horizontal">
+                                    <dt>Phone:</dt><dd><a href="tel:515330270">+48 515 330 270</a></dd>
+                                    <dt>Skype:</dt><dd><a href="skype:mucha.piotr@outlook.com">mucha.piotr@outlook.com</a></dd>
+                                    <dt>Email:</dt><dd><a href="mailto:mucha.piotr@outlook.com">mucha.piotr@outlook.com</a></dd>
+                                </dl>
+                            </div>
+                            <div class="col-xs-5 col-sm-12 social_links">
+                                <ul class="list-unstyled text-xs-right text-sm-left">
+                                    <li><a href="#">Facebook</a></li>
+                                    <li><a href="#">LinkedIn</a></li>
+                                    <li><a href="#">Github</a></li>
+                                    <li><a href="#">Bitbucket</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact_form contact_form col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-0 col-md-5 col-md-offset-1">
+                        <div class="row">
+                            <h3>Or just write me a letter here_</h3>
+                        </div>
+                        <div class="row">
+                            <form id="contact-form" class="form-horizontal" data-toggle="validator" data-disable="false">
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <input type="text" id="name-input" name="name" class="form-control" placeholder="Your name" data-error="Please, enter your name" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <input type="email" id="email-input" name="e-mail" class="form-control" placeholder="Your e-mail"  data-required-error="Please, enter your email" data-error="Please, enter your email as 'mail@mail.com'" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <textarea class="form-control" id="message-input" name="message" placeholder="Type the message here" rows="4" data-error="Please, enter your message" required></textarea>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <input type="submit" class="btn btn-primary btn-block" value="Send">
+                                        <div id="form-submit-errors" class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p class="small text-center">&copy;2017 Piotr Mucha. All Rights Reserved</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="portfolio-modal" tabindex="-1" role="dialog" aria-labelledby="portfolio-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 class="modal-title" id="portfolio-modal-label"></h3>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 portfolio_modal_pic">
+                            <img class="img-responsive" src="" alt=""/>
+                        </div>
+                        <div class="col-xs-12">
+                            <p class="portfolio_description"></p>
+                        </div>
+                        <div class="col-xs-12">
+                            <a class="portfolio_link" href="#" target="_blank"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="portfolio_stack">
+                        <p class="portfolio_stack_text">Used stack:</p>
+                        <ul class="list-inline"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+{% endblock %}
